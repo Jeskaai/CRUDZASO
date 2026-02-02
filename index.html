@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUDZASO | Academic Performance Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Estilo preventivo para el modal mientras carga el CSS principal */
+    .welcome-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255,255,255,0.9); display: flex; align-items: center;
+      justify-content: center; z-index: 9999; font-family: 'Inter', sans-serif;
+    }
+    .welcome-card { text-align: center; padding: 40px; background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+  </style>
+  <script type="module" crossorigin src="/assets/index-DpCuNXij.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-psrJibPE.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <div id="welcome-modal" class="welcome-overlay" style="display: none;">
+    <div class="welcome-card">
+      <div class="welcome-icon" style="font-size: 40px;">🎓</div>
+      <h2 id="welcome-text">¡Bienvenido a CRUDZASO!</h2>
+      <p>Cargando tu panel de control académico...</p>
+    </div>
+  </div>
+
+</body>
+</html>
