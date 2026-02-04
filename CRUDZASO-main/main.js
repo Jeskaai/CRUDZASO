@@ -1,7 +1,7 @@
 import './style.css';
 
 /* ==========================================
-   1. ESTADO, PERSISTENCIA Y DATOS
+   1. STATE, PERSISTENCE, AND DATA
    ========================================== */
 let currentUser = JSON.parse(localStorage.getItem('cz_user')) || null;
 let tasks = JSON.parse(localStorage.getItem('cz_tasks')) || [
@@ -16,7 +16,7 @@ const saveState = () => {
 };
 
 /* ==========================================
-   2. MOTOR DE NAVEGACIÓN (SPA)
+   2. NAVIGATION ENGINE (SPA)
    ========================================== */
 window.navigate = (view) => {
   const app = document.getElementById('app');
