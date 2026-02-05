@@ -83,6 +83,7 @@ const renderLogin = () => {
       // 3. If it doesn't exist in the list, we display the error.
       alert("Usuario no encontrado. Por favor, regístrate primero.");
     }
+    // Actualización de seguridad
 };
 };
 
