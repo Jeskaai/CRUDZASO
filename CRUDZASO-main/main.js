@@ -3,14 +3,23 @@ import './style.css';
 /* ==========================================
    1. STATE, PERSISTENCE, AND DATA
    ========================================== */
+
+// 1. PERMANENT LIST:
+let registeredUsers = JSON.parse(localStorage.getItem('cz_registered_users')) || [];
+
+// 2. ACTIVE SESSION: 
 let currentUser = JSON.parse(localStorage.getItem('cz_user')) || null;
+
+// 3. TASKS:
 let tasks = JSON.parse(localStorage.getItem('cz_tasks')) || [
   { id: 'CZ-701', title: 'Update Documentation', assignee: 'Sarah Lin', category: 'Documentation', status: 'In Progress', priority: 'Medium', dueDate: '2023-10-26' },
   { id: 'CZ-702', title: 'Fix Login Auth', assignee: 'Raj Patel', category: 'Development', status: 'Pending', priority: 'High', dueDate: '2023-10-26' },
   { id: 'CZ-703', title: 'Quarterly Review', assignee: 'Michelle O.', category: 'Management', status: 'Completed', priority: 'Low', dueDate: '2023-10-20' }
 ];
 
+// 4. SAVE FUNCTION: 
 const saveState = () => {
+  localStorage.setItem('cz_registered_users', JSON.stringify(registeredUsers));
   localStorage.setItem('cz_user', JSON.stringify(currentUser));
   localStorage.setItem('cz_tasks', JSON.stringify(tasks));
 };
@@ -41,7 +50,7 @@ window.navigate = (view) => {
 };
 
 /* ==========================================
-   3. VISTAS DE ACCESO
+   3. ACCESS VIEWS
    ========================================== */
 const renderLogin = () => {
   document.getElementById('app').innerHTML = `
@@ -58,16 +67,23 @@ const renderLogin = () => {
         <p class="access-footer">Don't have an account? <span class="link" onclick="navigate('signup')">Register</span></p>
       </div>
     </div>`;
-
-  document.getElementById('l-form').onsubmit = (e) => {
+    document.getElementById('l-form').onsubmit = (e) => {
     e.preventDefault();
     const email = document.getElementById('l-email').value;
-    if (currentUser && email === currentUser.email) {
+    
+    // 1. Searched for the user in the permanent list of registered users.
+    const userFound = registeredUsers.find(u => u.email === email);
+
+    // 2. If we find it, we'll restore your active session.
+    if (userFound) {
+      currentUser = userFound; 
+      saveState(); // We saved it to LocalStorage
       navigate('dashboard');
     } else {
-      alert("Credenciales no coinciden. Intenta registrarte.");
+      // 3. If it doesn't exist in the list, we display the error.
+      alert("Usuario no encontrado. Por favor, regístrate primero.");
     }
-  };
+};
 };
 
 const renderSignUp = () => {
@@ -88,14 +104,26 @@ const renderSignUp = () => {
 
   document.getElementById('s-form').onsubmit = (e) => {
     e.preventDefault();
-    currentUser = { 
+    
+    // 1. OBJECT
+    const newUser = { 
       name: document.getElementById('s-name').value,
       email: document.getElementById('s-email').value, 
+      password: document.getElementById('s-pw').value, // We saved the password for future login.
       onboardingComplete: false 
     };
+
+    // 2. Save to permanent list (database)
+    // Used registeredUsers 
+    registeredUsers.push(newUser); 
+
+    // 3. Set it as the user of the current session
+    currentUser = newUser;
+
+    // 4. Save everything to LocalStorage and browse
     saveState();
     navigate('onboarding');
-  };
+};
 };
 
 const renderOnboarding = () => {
@@ -140,7 +168,7 @@ const renderOnboarding = () => {
 };
 
 /* ==========================================
-   4. LAYOUT PRINCIPAL Y COMPONENTES
+   4. MAIN LAYOUT AND COMPONENTS
    ========================================== */
 const renderLayout = (view) => {
   document.getElementById('app').innerHTML = `
@@ -179,7 +207,7 @@ const renderLayout = (view) => {
 };
 
 /* ==========================================
-   5. VISTAS INTERNAS
+   5. INTERNAL VIEWS
    ========================================== */
 const renderDashboard = (container) => {
   const completed = tasks.filter(t => t.status === 'Completed').length;
@@ -341,16 +369,19 @@ const renderTableTemplate = (data) => `
   </table>`;
 
 /* ==========================================
-   6. LOGOUT Y ARRANQUE
+   6. LOGOUT AND STARTUP
    ========================================== */
 window.logout = () => {
   if (confirm("Are you sure you want to sign out?")) {
+    // We only removed the "ticket" from the current session
     localStorage.removeItem('cz_user');
+    
+    // We set the variable to null so that the Navigation Engine knows that there is nobody there
     currentUser = null;
+    
+    
+    // Así, la información de Juan Esteban sigue guardada en el navegador.
+    
     navigate('login');
   }
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  currentUser ? navigate('dashboard') : navigate('login');
-});
