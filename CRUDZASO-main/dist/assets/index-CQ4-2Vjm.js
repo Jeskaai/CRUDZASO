@@ -1,4 +1,4 @@
-(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=JSON.parse(localStorage.getItem(`cz_user`))||null,t=JSON.parse(localStorage.getItem(`cz_tasks`))||[{id:`CZ-701`,title:`Update Documentation`,assignee:`Sarah Lin`,category:`Documentation`,status:`In Progress`,priority:`Medium`,dueDate:`2023-10-26`},{id:`CZ-702`,title:`Fix Login Auth`,assignee:`Raj Patel`,category:`Development`,status:`Pending`,priority:`High`,dueDate:`2023-10-26`},{id:`CZ-703`,title:`Quarterly Review`,assignee:`Michelle O.`,category:`Management`,status:`Completed`,priority:`Low`,dueDate:`2023-10-20`}],n=()=>{localStorage.setItem(`cz_user`,JSON.stringify(e)),localStorage.setItem(`cz_tasks`,JSON.stringify(t))};window.navigate=t=>{let n=document.getElementById(`app`);n.style.opacity=`0`,setTimeout(()=>{!e&&t!==`login`&&t!==`signup`?r():e&&!e.onboardingComplete&&t!==`onboarding`?a():t===`login`?r():t===`signup`?i():t===`onboarding`?a():o(t===`newTask`?`newTask`:t),n.style.opacity=`1`},200)};var r=()=>{document.getElementById(`app`).innerHTML=`
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=JSON.parse(localStorage.getItem(`cz_registered_users`))||[],t=JSON.parse(localStorage.getItem(`cz_user`))||null,n=JSON.parse(localStorage.getItem(`cz_tasks`))||[{id:`CZ-701`,title:`Update Documentation`,assignee:`Sarah Lin`,category:`Documentation`,status:`In Progress`,priority:`Medium`,dueDate:`2023-10-26`},{id:`CZ-702`,title:`Fix Login Auth`,assignee:`Raj Patel`,category:`Development`,status:`Pending`,priority:`High`,dueDate:`2023-10-26`},{id:`CZ-703`,title:`Quarterly Review`,assignee:`Michelle O.`,category:`Management`,status:`Completed`,priority:`Low`,dueDate:`2023-10-20`}],r=()=>{localStorage.setItem(`cz_registered_users`,JSON.stringify(e)),localStorage.setItem(`cz_user`,JSON.stringify(t)),localStorage.setItem(`cz_tasks`,JSON.stringify(n))};window.navigate=e=>{let n=document.getElementById(`app`);n.style.opacity=`0`,setTimeout(()=>{!t&&e!==`login`&&e!==`signup`?i():t&&!t.onboardingComplete&&e!==`onboarding`?o():e===`login`?i():e===`signup`?a():e===`onboarding`?o():s(e===`newTask`?`newTask`:e),n.style.opacity=`1`},200)};var i=()=>{document.getElementById(`app`).innerHTML=`
     <div class="access-container">
       <div class="access-card">
         <div class="sidebar-logo" style="text-align:center; margin-bottom:24px;">💼 CRUDZASO</div>
@@ -11,7 +11,7 @@
         </form>
         <p class="access-footer">Don't have an account? <span class="link" onclick="navigate('signup')">Register</span></p>
       </div>
-    </div>`,document.getElementById(`l-form`).onsubmit=t=>{t.preventDefault();let n=document.getElementById(`l-email`).value;e&&n===e.email?navigate(`dashboard`):alert(`Credenciales no coinciden. Intenta registrarte.`)}},i=()=>{document.getElementById(`app`).innerHTML=`
+    </div>`,document.getElementById(`l-form`).onsubmit=n=>{n.preventDefault();let i=document.getElementById(`l-email`).value,a=e.find(e=>e.email===i);a?(t=a,r(),navigate(`dashboard`)):alert(`Usuario no encontrado. Por favor, regístrate primero.`)}},a=()=>{document.getElementById(`app`).innerHTML=`
     <div class="access-container">
       <div class="access-card">
         <h2 class="access-title">Create account</h2>
@@ -24,7 +24,7 @@
         </form>
         <p class="access-footer">Already have an account? <span class="link" onclick="navigate('login')">Sign in</span></p>
       </div>
-    </div>`,document.getElementById(`s-form`).onsubmit=t=>{t.preventDefault(),e={name:document.getElementById(`s-name`).value,email:document.getElementById(`s-email`).value,onboardingComplete:!1},n(),navigate(`onboarding`)}},a=()=>{document.getElementById(`app`).innerHTML=`
+    </div>`,document.getElementById(`s-form`).onsubmit=n=>{n.preventDefault();let i={name:document.getElementById(`s-name`).value,email:document.getElementById(`s-email`).value,password:document.getElementById(`s-pw`).value,onboardingComplete:!1};e.push(i),t=i,r(),navigate(`onboarding`)}},o=()=>{document.getElementById(`app`).innerHTML=`
     <div class="access-container">
       <div class="access-card">
         <h2 class="access-title">Configura tu Perfil</h2>
@@ -41,14 +41,14 @@
           <button type="submit" class="btn-submit">Finalizar Registro</button>
         </form>
       </div>
-    </div>`,document.getElementById(`f-up`).onchange=e=>{let t=new FileReader;t.onload=e=>document.getElementById(`o-preview`).src=e.target.result,t.readAsDataURL(e.target.files[0])},document.getElementById(`o-form`).onsubmit=t=>{t.preventDefault(),e={...e,role:document.getElementById(`o-role`).value,id:document.getElementById(`o-id`).value,avatar:document.getElementById(`o-preview`).src,onboardingComplete:!0,joinDate:new Date().toLocaleDateString(`en-US`,{month:`long`,day:`numeric`,year:`numeric`})},n(),navigate(`dashboard`)}},o=t=>{document.getElementById(`app`).innerHTML=`
+    </div>`,document.getElementById(`f-up`).onchange=e=>{let t=new FileReader;t.onload=e=>document.getElementById(`o-preview`).src=e.target.result,t.readAsDataURL(e.target.files[0])},document.getElementById(`o-form`).onsubmit=e=>{e.preventDefault(),t={...t,role:document.getElementById(`o-role`).value,id:document.getElementById(`o-id`).value,avatar:document.getElementById(`o-preview`).src,onboardingComplete:!0,joinDate:new Date().toLocaleDateString(`en-US`,{month:`long`,day:`numeric`,year:`numeric`})},r(),navigate(`dashboard`)}},s=e=>{document.getElementById(`app`).innerHTML=`
     <div class="layout-grid">
       <aside class="sidebar">
         <div class="sidebar-logo">💼 CRUDZASO</div>
         <nav class="sidebar-nav">
-          <button class="nav-btn ${t===`dashboard`?`active`:``}" onclick="navigate('dashboard')">📊 Dashboard</button>
-          <button class="nav-btn ${t===`tasks`?`active`:``}" onclick="navigate('tasks')">✅ My Tasks</button>
-          <button class="nav-btn ${t===`profile`?`active`:``}" onclick="navigate('profile')">👤 Profile</button>
+          <button class="nav-btn ${e===`dashboard`?`active`:``}" onclick="navigate('dashboard')">📊 Dashboard</button>
+          <button class="nav-btn ${e===`tasks`?`active`:``}" onclick="navigate('tasks')">✅ My Tasks</button>
+          <button class="nav-btn ${e===`profile`?`active`:``}" onclick="navigate('profile')">👤 Profile</button>
         </nav>
         <div class="sidebar-footer">
           <button class="logout-btn" onclick="logout()">🚪 Logout</button>
@@ -56,18 +56,18 @@
       </aside>
       <main class="main-content">
         <header class="topbar">
-          <div class="breadcrumb">🏠 > ${t.toUpperCase()}</div>
+          <div class="breadcrumb">🏠 > ${e.toUpperCase()}</div>
           <div class="profile-pill" onclick="navigate('profile')" style="cursor:pointer; display:flex; align-items:center; gap:12px;">
             <div class="profile-info" style="text-align:right;">
-                <p style="margin:0; font-size:14px; font-weight:600;">${e.name}</p>
-                <small style="display:block; color:gray; font-size:12px;">${e.role}</small>
+                <p style="margin:0; font-size:14px; font-weight:600;">${t.name}</p>
+                <small style="display:block; color:gray; font-size:12px;">${t.role}</small>
             </div>
-            <img src="${e.avatar}" style="width:32px; height:32px; border-radius:50%; object-fit:cover; border: 1px solid #ddd; flex-shrink:0;">
+            <img src="${t.avatar}" style="width:32px; height:32px; border-radius:50%; object-fit:cover; border: 1px solid #ddd; flex-shrink:0;">
           </div>
         </header>
         <div id="dynamic-content" class="view-content"></div>
       </main>
-    </div>`;let n=document.getElementById(`dynamic-content`);t===`tasks`?c(n):t===`profile`?u(n):t===`newTask`?l(n):s(n)},s=e=>{let n=t.filter(e=>e.status===`Completed`).length,r=t.filter(e=>e.status===`Pending`).length,i=t.length>0?Math.round(n/t.length*100):0;e.innerHTML=`
+    </div>`;let n=document.getElementById(`dynamic-content`);e===`tasks`?l(n):e===`profile`?d(n):e===`newTask`?u(n):c(n)},c=e=>{let t=n.filter(e=>e.status===`Completed`).length,r=n.filter(e=>e.status===`Pending`).length,i=n.length>0?Math.round(t/n.length*100):0;e.innerHTML=`
     <div class="header-row">
         <div>
             <h1>Task Manager</h1>
@@ -76,12 +76,12 @@
         <button class="btn-primary" onclick="navigate('newTask')">+ New Task</button>
     </div>
     <div class="stats-grid">
-      <div class="stat-card"><h3>Total Tasks</h3><div class="value">${t.length}</div><small style="color:green">↑ 12% from last week</small></div>
-      <div class="stat-card"><h3>Completed</h3><div class="value">${n}</div><small style="color:green">✓ On track</small></div>
+      <div class="stat-card"><h3>Total Tasks</h3><div class="value">${n.length}</div><small style="color:green">↑ 12% from last week</small></div>
+      <div class="stat-card"><h3>Completed</h3><div class="value">${t}</div><small style="color:green">✓ On track</small></div>
       <div class="stat-card"><h3>Pending</h3><div class="value">${r}</div><small style="color:red">⚠ ${r} High Priority</small></div>
       <div class="stat-card"><h3>Overall Progress</h3><div class="value">${i}%</div><small style="color:blue">Keep it up!</small></div>
     </div>
-    <div class="table-container">${d(t)}</div>`},c=e=>{e.innerHTML=`
+    <div class="table-container">${f(n)}</div>`},l=e=>{e.innerHTML=`
     <div class="header-row">
         <div>
             <h1>Task Management</h1>
@@ -89,7 +89,7 @@
         </div>
         <button class="btn-primary" onclick="navigate('newTask')">+ New Task</button>
     </div>
-    <div class="table-container">${d(t)}</div>`},l=r=>{r.innerHTML=`
+    <div class="table-container">${f(n)}</div>`},u=e=>{e.innerHTML=`
     <div class="header-row">
         <div onclick="navigate('tasks')" style="cursor:pointer; color:var(--primary); font-weight:600;">← Back to Tasks</div>
     </div>
@@ -142,19 +142,19 @@
                 <button type="submit" class="btn-primary">💾 Save Task</button>
             </div>
         </form>
-    </div>`,document.getElementById(`task-form`).onsubmit=r=>{r.preventDefault();let i={id:`CZ-${Math.floor(100+Math.random()*900)}`,title:document.getElementById(`t-title`).value,assignee:e.name,category:document.getElementById(`t-category`).value,status:document.getElementById(`t-status`).value,priority:document.getElementById(`t-priority`).value,dueDate:document.getElementById(`t-date`).value};t.push(i),n(),navigate(`tasks`)}},u=n=>{n.innerHTML=`
+    </div>`,document.getElementById(`task-form`).onsubmit=e=>{e.preventDefault();let i={id:`CZ-${Math.floor(100+Math.random()*900)}`,title:document.getElementById(`t-title`).value,assignee:t.name,category:document.getElementById(`t-category`).value,status:document.getElementById(`t-status`).value,priority:document.getElementById(`t-priority`).value,dueDate:document.getElementById(`t-date`).value};n.push(i),r(),navigate(`tasks`)}},d=e=>{e.innerHTML=`
     <h1 class="view-title" style="margin-bottom:30px;">My Profile</h1>
     <div class="profile-flex-wrapper">
       <div class="identity-card">
         <div class="avatar-header"></div>
         <div class="identity-body">
-            <img src="${e.avatar}" class="large-avatar" style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-top:-60px; border:4px solid white;">
-            <h2>${e.name}</h2>
-            <p style="color:var(--primary); font-weight:700;">${e.role}</p>
+            <img src="${t.avatar}" class="large-avatar" style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-top:-60px; border:4px solid white;">
+            <h2>${t.name}</h2>
+            <p style="color:var(--primary); font-weight:700;">${t.role}</p>
             <div style="background:#eff6ff; color:var(--primary); display:inline-block; padding:4px 12px; border-radius:20px; font-size:12px; margin-top:10px;">User Account</div>
         </div>
         <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
-            <div style="font-size:24px; font-weight:800;">${t.length}</div>
+            <div style="font-size:24px; font-weight:800;">${n.length}</div>
             <div style="color:gray; font-size:12px;">Tasks</div>
         </div>
       </div>
@@ -164,13 +164,13 @@
             <button class="nav-btn" style="width:auto; font-size:12px; border:1px solid var(--border);">Edit Profile</button>
         </div>
         <div class="details-grid">
-          <div class="item"><label>Full Name</label><p>${e.name}</p></div>
-          <div class="item"><label>Employee ID</label><p>${e.id}</p></div>
-          <div class="item"><label>Email</label><p>${e.email}</p></div>
-          <div class="item"><label>Join Date</label><p>${e.joinDate}</p></div>
+          <div class="item"><label>Full Name</label><p>${t.name}</p></div>
+          <div class="item"><label>Employee ID</label><p>${t.id}</p></div>
+          <div class="item"><label>Email</label><p>${t.email}</p></div>
+          <div class="item"><label>Join Date</label><p>${t.joinDate}</p></div>
         </div>
       </div>
-    </div>`},d=e=>`
+    </div>`},f=e=>`
   <table class="my-tasks-table">
     <thead><tr><th>TASK NAME</th><th>ASSIGNEE</th><th>STATUS</th><th>PRIORITY</th><th>DUE DATE</th></tr></thead>
     <tbody>
@@ -188,4 +188,4 @@
           <td>${e.dueDate}</td>
         </tr>`).join(``)}
     </tbody>
-  </table>`;window.logout=()=>{confirm(`Are you sure you want to sign out?`)&&(localStorage.removeItem(`cz_user`),e=null,navigate(`login`))},document.addEventListener(`DOMContentLoaded`,()=>{e?navigate(`dashboard`):navigate(`login`)});
+  </table>`;window.logout=()=>{confirm(`Are you sure you want to sign out?`)&&(localStorage.removeItem(`cz_user`),t=null,navigate(`login`))};
